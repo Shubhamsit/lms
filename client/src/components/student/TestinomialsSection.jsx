@@ -6,7 +6,9 @@ import { assets } from "../../assets/assets";
 function TestinomialsSection() {
   return (
     <div className="pb-14 px-8 md:px-0">
-      <h2 className="text-3xl font-medium text-gray-800 text-center">Testimonials</h2>
+      <h2 className="text-3xl font-medium text-gray-800 text-center">
+        Testimonials
+      </h2>
       <p className="md:text-base text-gray-500 mt-3 text-center">
         Hear from our learners as they share their journeys of transformation,
         success, and how our <br /> platform has made a difference in their
@@ -14,8 +16,6 @@ function TestinomialsSection() {
       </p>
 
       <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-8 mt-14">
-
-
         {dummyTestimonial.map((testimonial, index) => (
           <div
             key={index}
@@ -36,32 +36,28 @@ function TestinomialsSection() {
                 </h1>
                 <p className="text-gray-800/80">{testimonial.role}</p>
               </div>
-
-         
             </div>
-                 <div className="p-5 pb-7">
-                <div className="flex gap-0.5">
-                  {[
-                    ...Array(5)].map((_, i) => (
-                      <img
-                      className="h-5"
-                        key={i}
-                        src={
-                          i < Math.floor(testimonial.rating)
-                            ? assets.star
-                            : assets.star_blank
-                        }
-                      />
-                    ))
-                  }
-                </div>
-                <p className="text-gray-500 mt-5">{testimonial.feedback}</p>
+            <div className="p-5 pb-7">
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <img
+                    className="h-5"
+                    key={i}
+                    src={
+                      i < Math.floor(testimonial.rating)
+                        ? assets.star
+                        : assets.star_blank
+                    }
+                  />
+                ))}
               </div>
-              <a href="#" className="text-blue-500 underline px-5">Read more  </a>
+              <p className="text-gray-500 mt-5">{testimonial.feedback}</p>
+            </div>
+            <a href="#" className="text-blue-500 underline px-5">
+              Read more{" "}
+            </a>
           </div>
         ))}
-
-
       </div>
     </div>
   );
