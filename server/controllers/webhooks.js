@@ -6,6 +6,10 @@ import User from "../models/User.js";
 
 export const clerkWebhooks = async (req, res) => {
   try {
+
+
+    console.log("here");
+    
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
     await whook.verify(JSON.stringify(req.body), {
@@ -15,6 +19,9 @@ export const clerkWebhooks = async (req, res) => {
     });
 
     const { data, type } = req.body;
+
+    console.log(type,"type log kara");
+    
 
     switch (type) {
       case 'user.created': {
