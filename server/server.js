@@ -38,9 +38,9 @@ app.get('/check',(req,res)=>{
 
 });
 
-// app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks);
+app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks); ✅
 
-app.post('/clerk', express.json(), clerkWebhooks);
+// app.post('/clerk', express.json(), clerkWebhooks);
 
 // Port
 
