@@ -17,6 +17,7 @@ const app=express();
 // middleware
 
 app.use(cors());
+app.use(express.json());
 
 // Route
 
@@ -38,9 +39,9 @@ app.get('/check',(req,res)=>{
 
 });
 
-app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks); 
+// app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks); 
 
-// app.post('/clerk', express.json(), clerkWebhooks);
+app.post('/clerk',clerkWebhooks);
 
 // Port
 
