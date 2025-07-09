@@ -29,6 +29,14 @@ app.get('/',(req,res)=>{
 
 });
 
+app.get('/check',(req,res)=>{
+
+    res.json({name:"shubham"});
+    
+
+
+
+});
 
 app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks);
 
