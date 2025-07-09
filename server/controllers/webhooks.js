@@ -56,21 +56,6 @@ export const clerkWebhooks = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import { Webhook } from "svix";
 // import User from "../models/User.js";
 
@@ -79,7 +64,6 @@ export const clerkWebhooks = async (req, res) => {
 //     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
 //     console.log(process.env.CLERK_WEBHOOK_SECRET,"webhook bhai");
-    
 
 //     const payloadString = req.body.toString("utf8");
 //     const { data, type } = JSON.parse(payloadString);
