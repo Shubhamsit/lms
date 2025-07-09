@@ -52,9 +52,11 @@
 //         break;
 //     }
 //   } catch (error) {
-//     res.json({ sucess: false, message: error.message });
+//     res.json({ success: false, message: error.message });
 //   }
 // };
+
+
 
 import { Webhook } from "svix";
 import User from "../models/User.js";
@@ -63,16 +65,16 @@ export const clerkWebhooks = async (req, res) => {
   try {
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
-    console.log(process.env.CLERK_WEBHOOK_SECRET,"webhook bhai");
-
-    const payloadString = req.body.toString("utf8");
-    const { data, type } = JSON.parse(payloadString);
-
-    await whook.verify(payloadString, {
+    const payload = req.body.toString("utf8"); // ✅ Raw string for svix
+    const headers = {
       "svix-id": req.headers["svix-id"],
       "svix-timestamp": req.headers["svix-timestamp"],
       "svix-signature": req.headers["svix-signature"],
-    });
+    };
+
+    const evt = whook.verify(payload, headers); // ✅ verified event object
+
+    const { data, type } = evt;
 
     switch (type) {
       case "user.created": {
@@ -104,7 +106,7 @@ export const clerkWebhooks = async (req, res) => {
       }
 
       default:
-        return res.status(200).json({ message: "Unhandled event" });
+        return res.status(200).json({});
     }
   } catch (error) {
     console.error("Webhook Error:", error.message);
