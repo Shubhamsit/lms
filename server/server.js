@@ -1,70 +1,60 @@
-import express from 'express';
-import cors from 'cors';
-import 'dotenv/config';
-import { connectDB } from './configs/mongodb.js';
-import { clerkWebhooks } from './controllers/webhooks.js';
-import bodyParser from 'body-parser';
-
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+import { connectDB } from "./configs/mongodb.js";
+import { clerkWebhooks, stripeWebhooks } from "./controllers/webhooks.js";
+import bodyParser from "body-parser";
+import educatorRouter from "./routes/educatorRoutes.js";
+import { clerkMiddleware } from "@clerk/express";
+import connectCloudinary from "./configs/cloudinary.js";
+import courseRouter from "./routes/courseRoute.js";
+import userRouter from "./routes/userRoutes.js";
 
 // initalise express
 
-
 console.log(process.env.MONGODB_URI);
 
-
-const app=express();
+const app = express();
 
 // middleware
 
 app.use(cors());
 app.use(express.json());
+app.use(clerkMiddleware());
 
 // Route
 
-app.get('/',(req,res)=>{
-
-    res.send("Api working Shubham");
-    
-
-
-
+app.get("/", (req, res) => {
+  res.send("Api working Shubham");
 });
 
-app.get('/check',(req,res)=>{
-
-    res.json({name:"shubham"});
-    
 
 
+app.post("/clerk", clerkWebhooks);
+app.post('/stripe',express.raw({type:'application/json'},stripeWebhooks));
 
-});
+app.use('/api/educator',educatorRouter);
 
-// app.post('/clerk', bodyParser.raw({ type: 'application/json' }), clerkWebhooks); 
+app.use('/api/course',courseRouter);
 
-app.post('/clerk',clerkWebhooks);
+app.use('/api/user',userRouter);
 
 // Port
 
-const PORT=process.env.PORT||5000
+const PORT = process.env.PORT || 5000;
 
- connectDB().then(()=>{
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running  on  port ${PORT}`);
+    });
+  })
 
+  .then(()=>{
 
-app.listen(PORT,()=>{
+ connectCloudinary();
 
-console.log(`Server is running  on  port ${PORT}`);
-
-
-})
-
-
- }).catch((error)=>{
-
-
-    console.log("error in connection",error);
-    
-
-
-
- })
-
+  })
+  .catch((error) => {
+    console.log("error in connection", error);
+  });
