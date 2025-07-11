@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 
 
 app.post("/clerk", clerkWebhooks);
-app.post('/stripe',bodyParser.raw({type:'application/json'},stripeWebhooks));
+app.post('/stripe',bodyParser.raw({type:'application/json'}),stripeWebhooks);
 
 app.use('/api/educator',educatorRouter);
 
