@@ -2,26 +2,65 @@ import { createContext, useEffect, useState } from "react";
 import { dummyCourses } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import humanizeDuration from "humanise-duration";
+import axios from "axios";
 
-import {useAuth, useUser} from '@clerk/clerk-react';
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { toast } from "react-toastify";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
   const currency = import.meta.env.VITE_CURRENCY;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
-  const {getToken} =useAuth();
-  const {user}=useUser();
+  const { getToken } = useAuth();
+  const { user } = useUser();
 
   const [allCourses, setAllCourses] = useState([]);
-  const [isEducator, setIsEducator] = useState(true);
+  const [isEducator, setIsEducator] = useState(false);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   // fetch courses
 
-  const fetchCourses = async () => {
-    setAllCourses(dummyCourses);
+  const fetchAllCourses = async () => {
+    try {
+      const res = await axios.get(backendUrl + "/api/course/all");
+
+      if (res.data.success) {
+        setAllCourses(res.data.courses);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // Fetch User Data
+
+  const fechUserData = async () => {
+    if (user.publicMetadata.role === "educator") {
+      setIsEducator(true);
+    }
+
+    try {
+      const token = getToken();
+      const { data } = await axios.get(backendUrl + "/api/user/data", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (data.success) {
+        setUserData(data.user);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   // function to create avg rating of course
@@ -73,31 +112,45 @@ export const AppContextProvider = (props) => {
   // fetch userEnrolled Courses
 
   const fetchUserEnrolledCourses = async () => {
-    setEnrolledCourses(dummyCourses);
+    try {
+      const token = await getToken();
+      const { data } = await axios.get(
+        backendUrl + "/api/user/enrolled-courses",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (data.success) {
+        setEnrolledCourses(data.enrolledCourses.reverse());
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+    // setEnrolledCourses(dummyCourses);
   };
 
   useEffect(() => {
-    fetchCourses();
-    fetchUserEnrolledCourses();
+    fetchAllCourses();
+   
   }, []);
 
+  // const logToken = async () => {
+  //   console.log(await getToken());
+  // };
 
-
-  const logToken= async ()=>{
-
-    console.log(await getToken());
-    
-  }
-
-  useEffect(()=>{
-
-    if(user){
-
-      logToken();
-
+  useEffect(() => {
+    if (user) {
+      // logToken();
+      fechUserData();
+      fetchUserEnrolledCourses();
     }
-  },[user])
-  
+  }, [user]);
 
   const value = {
     currency,
@@ -111,6 +164,11 @@ export const AppContextProvider = (props) => {
     calculateNoOfLectures,
     fetchUserEnrolledCourses,
     enrolledCourses,
+    backendUrl,
+    userData,
+    setUserData,
+    getToken,
+    fetchAllCourses,
   };
 
   return (
