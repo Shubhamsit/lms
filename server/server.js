@@ -16,6 +16,8 @@ console.log(process.env.MONGODB_URI);
 
 const app = express();
 
+app.post('/stripe',bodyParser.raw({type:'application/json'}),stripeWebhooks);
+
 // middleware
 
 app.use(cors());
@@ -31,7 +33,7 @@ app.get("/", (req, res) => {
 
 
 app.post("/clerk", clerkWebhooks);
-app.post('/stripe',bodyParser.raw({type:'application/json'}),stripeWebhooks);
+
 
 app.use('/api/educator',educatorRouter);
 
@@ -58,3 +60,11 @@ connectDB()
   .catch((error) => {
     console.log("error in connection", error);
   });
+
+
+
+
+  app.use((req, res) => {
+    res.status(404).json({ error: "Route not found", path: req.originalUrl });
+  });
+  
