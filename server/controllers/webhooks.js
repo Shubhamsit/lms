@@ -82,6 +82,10 @@ const stripeInstance=new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const stripeWebhooks=async(req,res)=>{
 
+
+
+  console.log("yaha tak");
+
   const sig = request.headers['stripe-signature'];
 
   let event;
