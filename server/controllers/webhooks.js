@@ -92,14 +92,20 @@ export const stripeWebhooks=async(req,res)=>{
 
   try {
     event = stripeInstance.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    console.log("apna eevent",event);
   }
   catch (err) {
-    res.status(400).send(`Webhook Error: ${err.message}`);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
 
-
+  console.log("Stripe Event Type:", event.type);
   switch (event.type) {
+
+
+    
+
+
     case 'payment_intent.succeeded':{
       const paymentIntent = event.data.object;
 
