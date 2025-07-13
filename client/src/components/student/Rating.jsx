@@ -9,11 +9,16 @@ function Rating({ initialRating, onRate }) {
     if (onRate) onRate(value);
   };
 
+
+
+
   useEffect(() => {
     if (initialRating) {
       setRating(initialRating);
     }
   }, [initialRating]);
+
+
 
   return (
     <div>

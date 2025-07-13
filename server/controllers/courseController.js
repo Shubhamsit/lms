@@ -1,7 +1,12 @@
 import Course from "../models/Course.js";
+
+
+
+
+
 // get All courses
 
-export const getAllCourse = async (req,res) => {
+export const getAllCourse = async (req, res) => {
   try {
     const courses = await Course.find({
       isPublished: true,
@@ -14,6 +19,11 @@ export const getAllCourse = async (req,res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+
+
+
+
 
 // Get course By Id function
 

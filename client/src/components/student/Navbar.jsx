@@ -16,6 +16,10 @@ function Navbar() {
   const { openSignIn } = useClerk();
   const { user } = useUser();
 
+
+
+
+
   const becomeEducator = async () => {
     try {
       if (isEducator) {
@@ -42,7 +46,10 @@ function Navbar() {
       toast.error(error.message);
     }
   };
-  // heefeg
+  
+
+
+
 
   return (
     <div
@@ -85,6 +92,8 @@ function Navbar() {
           </button>
         )}
       </div>
+
+      
 
       {/* For smaller/phone Screen */}
 

@@ -8,63 +8,45 @@ import { toast } from "react-toastify";
 function StudentsEnrolled() {
 
 
-  const {backendUrl, getToken, isEducator}=useContext(AppContext);
+  const { backendUrl, getToken, isEducator } = useContext(AppContext);
   const [enrolledStudents, setEnrolledStudents] = useState(null);
 
+
+
   const fetchEnrolledStudents = async () => {
-
     try {
+      const token = await getToken();
 
+      const { data } = await axios.get(
+        backendUrl + "/api/educator/enrolled-students",
 
-       const token = await getToken();
-      
-            const { data } = await axios.get(
-              backendUrl + "/api/educator/enrolled-students",
-             
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-
-            if(data.success){
-
-              
-    setEnrolledStudents(data.enrolledStudents.reverse());
-
-
-
-
-            }
-
-            else{
-
-
-
-              toast.error(data.message);
-            }
-
-
-
-      
+      if (data.success) {
+        setEnrolledStudents(data.enrolledStudents.reverse());
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
       toast.error(error.message);
-      
     }
-
-
-
   };
 
-  useEffect(() => {
-if(isEducator){
-    fetchEnrolledStudents();
 
-}
+
+
+  useEffect(() => {
+    if (isEducator) {
+      fetchEnrolledStudents();
+    }
+  }, [isEducator]);
+
 
 
   
-  }, [isEducator]);
 
   return enrolledStudents ? (
     <div className="min-h-screen flex flex-col items-start justify-between md:p=8 md:pb-0 p-4 pt-8 pb-0">

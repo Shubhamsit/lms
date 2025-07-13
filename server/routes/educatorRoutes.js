@@ -5,7 +5,6 @@ import { protectEducator } from '../middlewares/authMiddleware.js';
 
 const educatorRouter=Router();
 
-
 // Add educator Role
 
 

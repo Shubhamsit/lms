@@ -10,8 +10,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function CourseDetails() {
-  const { id } = useParams();
 
+
+  const { id } = useParams();
   const [courseData, setCourseData] = useState(null);
   const [openSections, setOpenSections] = useState({});
   const [isAlreadyEnrolled, setIsAlreadyEnrolled] = useState(false);
@@ -29,6 +30,8 @@ function CourseDetails() {
     getToken,
   } = useContext(AppContext);
 
+
+
   const fetchCourseData = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/course/" + id);
@@ -43,6 +46,9 @@ function CourseDetails() {
     }
   };
 
+
+
+
   const enrollCourse = async () => {
     console.log("user data bhai", userData);
     try {
@@ -55,7 +61,6 @@ function CourseDetails() {
       }
       const token = await getToken();
       console.log(token);
-      
 
       const { data } = await axios.post(
         backendUrl + "/api/user/purchase",
@@ -65,16 +70,12 @@ function CourseDetails() {
         }
       );
 
-      console.log(data,"ye data");
-      
+      console.log(data, "ye data");
 
       if (data.success) {
-       
-        
         const { session_url } = data;
 
-        console.log(session_url,"ye le session url");
-        
+        console.log(session_url, "ye le session url");
 
         window.location.replace(session_url);
       } else {
@@ -85,9 +86,15 @@ function CourseDetails() {
     }
   };
 
+
+
+
+
   useEffect(() => {
     fetchCourseData();
   }, []);
+
+
 
   useEffect(() => {
     if (userData && courseData) {
@@ -98,12 +105,16 @@ function CourseDetails() {
 
 
 
+
+
   if (!courseData) return <Loading />;
 
   const toggleSection = (index) => {
     setOpenSections((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
+
+  
   return (
     <>
       <div

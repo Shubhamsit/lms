@@ -5,13 +5,16 @@ import Stripe from "stripe";
 import Purchase from "../models/Purchase.js";
 import Course from "../models/Course.js";
 
+
+
+
+
 // Api Controller function to manage Clerk User with database
 
 export const clerkWebhooks = async (req, res) => {
   try {
-
     console.log("here");
-    
+
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
     await whook.verify(JSON.stringify(req.body), {
@@ -74,54 +77,48 @@ export const clerkWebhooks = async (req, res) => {
 
 
 
+
+
 //  fn to handle stripe webhooks
 
+const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const stripeInstance=new Stripe(process.env.STRIPE_SECRET_KEY);
-
-
-export const stripeWebhooks=async(req,res)=>{
-
-
-
+export const stripeWebhooks = async (req, res) => {
   console.log("yaha tak");
 
-  const sig = req.headers['stripe-signature'];
+  const sig = req.headers["stripe-signature"];
 
   let event;
 
   try {
-    event = stripeInstance.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-    console.log("apna eevent",event);
-  }
-  catch (err) {
+    event = stripeInstance.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+    console.log("apna eevent", event);
+  } catch (err) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-
   console.log("Stripe Event Type:", event.type);
   switch (event.type) {
-
-
-    
-
-
-    case 'payment_intent.succeeded':{
+    case "payment_intent.succeeded": {
       const paymentIntent = event.data.object;
 
-      const paymentIntentId=paymentIntent.id;
+      const paymentIntentId = paymentIntent.id;
 
-      const session=await stripeInstance.checkout.sessions.list({
+      const session = await stripeInstance.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+      });
 
-        payment_intent:paymentIntentId
-      })
+      const { purchaseId } = session.data[0].metadata;
 
-
-      const {purchaseId}=session.data[0].metadata;
-
-      const purchaseData=await Purchase.findById(purchaseId);
-      const userData= await User.findById(purchaseData.userId);
-      const courseData= await Course.findById(purchaseData.courseId.toString());
+      const purchaseData = await Purchase.findById(purchaseId);
+      const userData = await User.findById(purchaseData.userId);
+      const courseData = await Course.findById(
+        purchaseData.courseId.toString()
+      );
 
       courseData.enrolledStudents.push(userData);
       await courseData.save();
@@ -129,39 +126,31 @@ export const stripeWebhooks=async(req,res)=>{
       userData.enrolledCourses.push(courseData._id);
       await userData.save();
 
-      purchaseData.status='completed';
+      purchaseData.status = "completed";
       await purchaseData.save();
 
       break;
-
-
     }
-      
 
-    case 'payment_intent.payment_failed':{
-
+    case "payment_intent.payment_failed": {
       const paymentIntent = event.data.object;
 
-      const paymentIntentId=paymentIntent.id;
+      const paymentIntentId = paymentIntent.id;
 
-      const session=await stripeInstance.checkout.sessions.list({
+      const session = await stripeInstance.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+      });
 
-        payment_intent:paymentIntentId
-      })
+      const { purchaseId } = session.data[0].metadata;
+      const purchaseData = await Purchase.findById(purchaseId);
 
-
-      const {purchaseId}=session.data[0].metadata;
-      const purchaseData= await Purchase.findById(purchaseId);
-
-      purchaseData.status='failed';
+      purchaseData.status = "failed";
       await purchaseData.save();
-    
-      break;
-  }
-     
-  
-    // handle other event types
 
+      break;
+    }
+
+    // handle other event types
 
     default:
       console.log(`Unhandled event type ${event.type}`);
@@ -169,10 +158,5 @@ export const stripeWebhooks=async(req,res)=>{
 
   // Return a response to acknowledge receipt of the event
 
-  res.json({received: true});
-
-
-
-
-
-} 
+  res.json({ received: true });
+};

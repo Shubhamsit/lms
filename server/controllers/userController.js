@@ -4,6 +4,11 @@ import Purchase from "../models/Purchase.js";
 import User from "../models/User.js";
 import CourseProgress from "../models/CourseProgress.js";
 
+
+
+
+
+
 // get user data
 
 export const getUserData = async (req, res) => {
@@ -21,6 +26,13 @@ export const getUserData = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
 // fn to get userEnrolled Courses with lecture Link
 
 export const userEnrolledCourses = async (req, res) => {
@@ -36,6 +48,13 @@ export const userEnrolledCourses = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+
+
+
+
+
+
 
 // Purhase course function
 
@@ -68,7 +87,8 @@ export const purchaseCourse = async (req, res) => {
     const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     // const currency = process.env.currency.toLowerCase();
-    const currency = 'usd';
+
+    const currency = "usd";
 
     // CREATING LINE ITEMS FOR STRIPE
 
@@ -102,6 +122,10 @@ export const purchaseCourse = async (req, res) => {
   }
 };
 
+
+
+
+
 // update user Course Progress
 
 export const updateUserCourseProgress = async (req, res) => {
@@ -134,6 +158,11 @@ export const updateUserCourseProgress = async (req, res) => {
   }
 };
 
+
+
+
+
+
 //  get user Course Progress
 
 export const getUserCourseProgress = async (req, res) => {
@@ -147,6 +176,9 @@ export const getUserCourseProgress = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+
+
 
 // Add user Rating to Course
 

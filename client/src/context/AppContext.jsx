@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { dummyCourses } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import humanizeDuration from "humanise-duration";
 import axios from "axios";
@@ -22,6 +21,11 @@ export const AppContextProvider = (props) => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [userData, setUserData] = useState(null);
 
+
+
+
+
+
   // fetch courses
 
   const fetchAllCourses = async () => {
@@ -38,9 +42,11 @@ export const AppContextProvider = (props) => {
     }
   };
 
+
+
+
+
   // Fetch User Data
-
-
 
   const fechUserData = async () => {
     if (user.publicMetadata.role === "educator") {
@@ -85,6 +91,11 @@ export const AppContextProvider = (props) => {
     return Math.floor(totalRating / course.courseRatings.length);
   };
 
+
+
+
+
+
   // function to calculate Course chapter Time
 
   const calculateChapterTime = (chapter) => {
@@ -93,6 +104,11 @@ export const AppContextProvider = (props) => {
 
     return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
   };
+
+
+
+
+
   // fn to caclulate course Duration
 
   const calculateCourseDuration = (course) => {
@@ -103,6 +119,10 @@ export const AppContextProvider = (props) => {
 
     return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
   };
+
+
+
+
 
   // calculate total no of lectures in course
 
@@ -116,6 +136,10 @@ export const AppContextProvider = (props) => {
     return totalLectures;
   };
 
+
+
+
+  
   // fetch userEnrolled Courses
 
   const fetchUserEnrolledCourses = async () => {
@@ -138,28 +162,29 @@ export const AppContextProvider = (props) => {
     } catch (error) {
       toast.error(error.message);
     }
-
-    // setEnrolledCourses(dummyCourses);
   };
+
+
+
 
   useEffect(() => {
     fetchAllCourses();
   }, []);
 
-  // const logToken = async () => {
-  //   console.log(await getToken());
-  // };
+
+
 
   useEffect(() => {
     if (user) {
-      // logToken();
       fechUserData();
-
-      console.log("mera data", userData);
 
       fetchUserEnrolledCourses();
     }
   }, [user]);
+
+
+
+
 
   const value = {
     currency,

@@ -18,11 +18,15 @@ const app = express();
 
 app.post('/stripe',bodyParser.raw({type:'application/json'}),stripeWebhooks);
 
+
+
 // middleware
 
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
+
+
 
 // Route
 
@@ -36,9 +40,7 @@ app.post("/clerk", clerkWebhooks);
 
 
 app.use('/api/educator',educatorRouter);
-
 app.use('/api/course',courseRouter);
-
 app.use('/api/user',userRouter);
 
 // Port

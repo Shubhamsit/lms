@@ -8,10 +8,15 @@ import { assets } from "../../assets/assets";
 import Footer from "../../components/student/Footer";
 
 function CoursesList() {
+
+
   const { navigate, allCourses } = useContext(AppContext);
   const { input } = useParams();
-
   const [filterdCourse, setFilterdCourse] = useState([]);
+
+
+
+
 
   useEffect(() => {
     if (allCourses && allCourses.length > 0) {
@@ -26,6 +31,10 @@ function CoursesList() {
         : setFilterdCourse(tempCourses);
     }
   }, [allCourses, input]);
+
+
+
+
 
   return (
     <>

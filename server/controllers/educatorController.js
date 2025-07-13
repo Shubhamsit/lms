@@ -4,6 +4,10 @@ import { v2 as cloudinary } from "cloudinary";
 import Purchase from "../models/Purchase.js";
 import User from "../models/User.js";
 
+
+
+
+
 // update role to educator
 
 export const upadateRoleToEducator = async (req, res) => {
@@ -21,6 +25,11 @@ export const upadateRoleToEducator = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+
+
+
+
 
 // Fn to add new Course
 
@@ -50,6 +59,13 @@ export const addCourse = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
 // Get educator Courses Function
 
 export const getEducatorCourses = async (req, res) => {
@@ -61,6 +77,9 @@ export const getEducatorCourses = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+
+
 
 
 
@@ -81,6 +100,9 @@ export const educatorDashboardData = async (req, res) => {
 
 
 
+
+
+
     // calculate total Earnings from purchases
 
     const purchases = await Purchase.find({
@@ -92,6 +114,8 @@ export const educatorDashboardData = async (req, res) => {
       (sum, purchase) => sum + purchase.amount,
       0
     );
+
+
 
 
 
@@ -125,6 +149,10 @@ export const educatorDashboardData = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+
+
+
 
 
 

@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 function MyEnrollments() {
+
+
   const {
     enrolledCourses,
     calculateCourseDuration,
@@ -17,9 +19,16 @@ function MyEnrollments() {
     getToken,
     calculateNoOfLectures,
   } = useContext(AppContext);
+
+
+
   const [progressArray, setProgressArray] = useState([]);
 
+
+
+
   const getCourseProgress = async () => {
+
     try {
       const token = await getToken();
 
@@ -48,17 +57,27 @@ function MyEnrollments() {
     }
   };
 
+
+
+
+
   useEffect(() => {
     if (userData) {
       fetchUserEnrolledCourses();
     }
   }, [userData]);
 
+
+
+
   useEffect(() => {
     if (enrolledCourses.length > 0) {
       getCourseProgress();
     }
   }, [enrolledCourses]);
+
+
+  
 
   return (
     <>
