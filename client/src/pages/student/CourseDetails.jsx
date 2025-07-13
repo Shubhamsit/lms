@@ -54,6 +54,8 @@ function CourseDetails() {
         return toast.warn("Already Enrolled");
       }
       const token = await getToken();
+      console.log(token);
+      
 
       const { data } = await axios.post(
         backendUrl + "/api/user/purchase",
@@ -63,8 +65,16 @@ function CourseDetails() {
         }
       );
 
+      console.log(data,"ye data");
+      
+
       if (data.success) {
+       
+        
         const { session_url } = data;
+
+        console.log(session_url,"ye le session url");
+        
 
         window.location.replace(session_url);
       } else {
