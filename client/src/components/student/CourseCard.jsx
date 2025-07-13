@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 function CourseCard({ course }) {
   const { currency, calculateRating } = useContext(AppContext);
 
+
   return (
     <Link
       to={`/course/${course._id}`}
@@ -16,7 +17,7 @@ function CourseCard({ course }) {
 
       <div className="p-3 text-left">
         <h3 className="tect-base font-semibold">{course.courseTitle}</h3>
-        <p className="text-gray-500">Shubham</p>
+        <p className="text-gray-500">{course.educator.name}</p>
 
         <div className="flex items-center space-x-2">
           <p>{calculateRating(course)}</p>

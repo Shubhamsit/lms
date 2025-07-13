@@ -40,13 +40,18 @@ export const AppContextProvider = (props) => {
 
   // Fetch User Data
 
+
+
   const fechUserData = async () => {
     if (user.publicMetadata.role === "educator") {
       setIsEducator(true);
     }
 
     try {
-      const token = getToken();
+      const token = await getToken();
+
+      console.log(token);
+
       const { data } = await axios.get(backendUrl + "/api/user/data", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,6 +68,9 @@ export const AppContextProvider = (props) => {
     }
   };
 
+
+
+
   // function to create avg rating of course
 
   const calculateRating = (course) => {
@@ -74,7 +82,7 @@ export const AppContextProvider = (props) => {
     course.courseRatings.forEach((rating) => {
       totalRating += rating.rating;
     });
-    return totalRating / course.courseRatings.length;
+    return Math.floor(totalRating / course.courseRatings.length);
   };
 
   // function to calculate Course chapter Time
@@ -104,9 +112,8 @@ export const AppContextProvider = (props) => {
       if (Array.isArray(chapter.chapterContent)) {
         totalLectures += chapter.chapterContent.length;
       }
-
-      return totalLectures;
     });
+    return totalLectures;
   };
 
   // fetch userEnrolled Courses
@@ -137,7 +144,6 @@ export const AppContextProvider = (props) => {
 
   useEffect(() => {
     fetchAllCourses();
-   
   }, []);
 
   // const logToken = async () => {
@@ -148,6 +154,9 @@ export const AppContextProvider = (props) => {
     if (user) {
       // logToken();
       fechUserData();
+
+      console.log("mera data", userData);
+
       fetchUserEnrolledCourses();
     }
   }, [user]);
