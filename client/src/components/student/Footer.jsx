@@ -8,8 +8,7 @@ function Footer() {
         <div className="flex flex-col md:items-start items-center w-full">
           <img src={assets.logo_dark} alt="" />
           <p className="mt-6 text-center md:text-left text-sm text-white/80">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text.
+    Edemy is an online learning platform offering high-quality, practical courses to help students build real-world skills at their own pace.
           </p>
         </div>
 
@@ -54,7 +53,7 @@ function Footer() {
       </div>
 
       <p className="py-4 text-center text-xs md:text-sm text-white/80">
-        Copyright 2024 © Edemy. All Right Reserved.
+        Copyright 2025 © Edemy. All Right Reserved.
       </p>
     </footer>
   );

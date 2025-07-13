@@ -8,8 +8,7 @@ function CallToAction() {
         Learn anything, anytime, anywhere
       </h1>
       <p className="text-gray-500 sm:text-sm">
-        Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id
-        veniam aliqua proident excepteur commodo do ea.
+    Fuel your growth with flexible, hands-on learning-accessible from wherever you are, whenever you choose.
       </p>
 
       <div className="flex items-center gap-6 font-medium mt-4">

@@ -42,6 +42,9 @@ import profile_img from './profile_img.png'
 import profile_img2 from './profile_img2.png'
 import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
+import shubham from './shubham.jpg'
+import rohit from './rohit.jpg'
+import raghav from './raghav.jpg'
 
 
 export const assets = {
@@ -88,7 +91,11 @@ export const assets = {
     profile_img3,
     play_icon,
     blue_tick_icon,
-    lesson_icon
+    lesson_icon,
+    shubham,
+    rohit,
+    raghav
+
 }
 
 export const dummyEducatorData = {
@@ -103,25 +110,25 @@ export const dummyEducatorData = {
 
 export const dummyTestimonial = [
     {
-        name: 'Donald Jackman',
+        name: 'Aanova',
         role: 'SWE 1 @ Amazon',
-        image: assets.profile_img_1,
+        image: assets.shubham,
         rating: 5,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: "I've been using Edemy for nearly two years, primarily for skill-building, and it has been incredibly user-friendly, making my learning much easier.",
     },
     {
-        name: 'Richard Nelson',
+        name: 'Rohit Senapati',
         role: 'SWE 2 @ Samsung',
-        image: assets.profile_img_2,
+        image: assets.rohit,
         rating: 4,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: "Edemy has been a game-changer for me. The content is well-structured, and the platform is so easy to navigate—it’s made learning truly enjoyable.",
     },
     {
-        name: 'James Washington',
+        name: 'Raghvendra Pratap',
         role: 'SWE 2 @ Google',
-        image: assets.profile_img_3,
+        image: assets.raghav,
         rating: 4.5,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: "I started using Edemy last year to improve my coding skills, and I’m impressed by how smooth and effective the whole experience has been.",
     },
 ];
 
